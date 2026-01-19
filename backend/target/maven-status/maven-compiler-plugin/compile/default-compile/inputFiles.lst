@@ -1,0 +1,15 @@
+C:\Users\jjrmi\inventory-management\backend\src\main\java\com\inventory\security\JwtAuthenticationFilter.java
+C:\Users\jjrmi\inventory-management\backend\src\main\java\com\inventory\model\User.java
+C:\Users\jjrmi\inventory-management\backend\src\main\java\com\inventory\security\JwtTokenProvider.java
+C:\Users\jjrmi\inventory-management\backend\src\main\java\com\inventory\dto\request\LoginRequest.java
+C:\Users\jjrmi\inventory-management\backend\src\main\java\com\inventory\security\UserDetailsServiceImpl.java
+C:\Users\jjrmi\inventory-management\backend\src\main\java\com\inventory\config\CorsConfig.java
+C:\Users\jjrmi\inventory-management\backend\src\main\java\com\inventory\dto\request\RegisterRequest.java
+C:\Users\jjrmi\inventory-management\backend\src\main\java\com\inventory\dto\response\AuthResponse.java
+C:\Users\jjrmi\inventory-management\backend\src\main\java\com\inventory\exception\GlobalExceptionHandler.java
+C:\Users\jjrmi\inventory-management\backend\src\main\java\com\inventory\service\AuthService.java
+C:\Users\jjrmi\inventory-management\backend\src\main\java\com\inventory\controller\AuthController.java
+C:\Users\jjrmi\inventory-management\backend\src\main\java\com\inventory\model\enums\Role.java
+C:\Users\jjrmi\inventory-management\backend\src\main\java\com\inventory\repository\UserRepository.java
+C:\Users\jjrmi\inventory-management\backend\src\main\java\com\inventory\config\SecurityConfig.java
+C:\Users\jjrmi\inventory-management\backend\src\main\java\com\inventory\InventoryApplication.java
