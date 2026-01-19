@@ -36,7 +36,7 @@ server:
 
 # JWT Configuration
 jwt:
-  secret: ${JWT_SECRET:your-secret-key-change-this-in-production-make-it-at-least-256-bits}
+  secret: ${JWT_SECRET:eW91ci12ZXJ5LWxvbmctc2VjcmV0LWtleS1hdC1sZWFzdC0yNTYtYml0cy1sb25nLWNoYW5nZS10aGlzLWluLXByb2R1Y3Rpb24=}
   expiration: 86400000 # 24 hours in milliseconds
 
 # CORS Configuration
