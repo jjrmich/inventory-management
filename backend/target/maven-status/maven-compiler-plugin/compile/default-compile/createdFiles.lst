@@ -1,0 +1,8 @@
+com\inventory\repository\ProductRepository.class
+com\inventory\dto\request\ProductRequest.class
+com\inventory\controller\ProductController.class
+com\inventory\service\ProductService.class
+com\inventory\model\Product.class
+com\inventory\model\Product$ProductBuilder.class
+com\inventory\dto\response\ProductResponse$ProductResponseBuilder.class
+com\inventory\dto\response\ProductResponse.class

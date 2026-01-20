@@ -1,6 +1,7 @@
 C:\Users\jjrmi\inventory-management\backend\src\main\java\com\inventory\security\JwtAuthenticationFilter.java
 C:\Users\jjrmi\inventory-management\backend\src\main\java\com\inventory\model\User.java
 C:\Users\jjrmi\inventory-management\backend\src\main\java\com\inventory\security\JwtTokenProvider.java
+C:\Users\jjrmi\inventory-management\backend\src\main\java\com\inventory\repository\ProductRepository.java
 C:\Users\jjrmi\inventory-management\backend\src\main\java\com\inventory\dto\request\LoginRequest.java
 C:\Users\jjrmi\inventory-management\backend\src\main\java\com\inventory\security\UserDetailsServiceImpl.java
 C:\Users\jjrmi\inventory-management\backend\src\main\java\com\inventory\config\CorsConfig.java
@@ -9,7 +10,12 @@ C:\Users\jjrmi\inventory-management\backend\src\main\java\com\inventory\dto\resp
 C:\Users\jjrmi\inventory-management\backend\src\main\java\com\inventory\exception\GlobalExceptionHandler.java
 C:\Users\jjrmi\inventory-management\backend\src\main\java\com\inventory\service\AuthService.java
 C:\Users\jjrmi\inventory-management\backend\src\main\java\com\inventory\controller\AuthController.java
+C:\Users\jjrmi\inventory-management\backend\src\main\java\com\inventory\dto\request\ProductRequest.java
 C:\Users\jjrmi\inventory-management\backend\src\main\java\com\inventory\model\enums\Role.java
+C:\Users\jjrmi\inventory-management\backend\src\main\java\com\inventory\dto\response\ProductResponse.java
 C:\Users\jjrmi\inventory-management\backend\src\main\java\com\inventory\repository\UserRepository.java
+C:\Users\jjrmi\inventory-management\backend\src\main\java\com\inventory\model\Product.java
+C:\Users\jjrmi\inventory-management\backend\src\main\java\com\inventory\controller\ProductController.java
 C:\Users\jjrmi\inventory-management\backend\src\main\java\com\inventory\config\SecurityConfig.java
+C:\Users\jjrmi\inventory-management\backend\src\main\java\com\inventory\service\ProductService.java
 C:\Users\jjrmi\inventory-management\backend\src\main\java\com\inventory\InventoryApplication.java
