@@ -48,4 +48,11 @@ Thumbs.db
 # Environment files
 .env
 .env.local
+backend/.env
+backend/.env.local
 .env.*.local
+backend/.env.*.local
+
+# Build output
+target/
+backend/target/
