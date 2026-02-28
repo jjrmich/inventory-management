@@ -8,7 +8,7 @@ import Modal from '@/components/ui/Modal';
 import ProductForm from '@/components/products/ProductForm';
 
 export default function ProductsPage() {
-    const { user, logout, isLoading: authLoading } = useAuth();
+    const { user, isLoading: authLoading } = useAuth();
     const { canEdit, isAdmin } = useRole();
     const router = useRouter();
 
@@ -99,23 +99,6 @@ export default function ProductsPage() {
 
     return (
         <div className="min-h-screen bg-gray-50">
-            {/* Header */}
-            <header className="bg-white shadow">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-                    <h1 className="text-2xl font-bold text-gray-900">Products</h1>
-                    <div className="flex items-center gap-4">
-                        <span className="text-sm text-gray-600">
-                            {user.firstName} {user.lastName} &mdash; <span className="font-medium">{user.role}</span>
-                        </span>
-                        <button
-                            onClick={logout}
-                            className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700"
-                        >
-                            Logout
-                        </button>
-                    </div>
-                </div>
-            </header>
 
             {/* Main Content */}
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -126,6 +109,7 @@ export default function ProductsPage() {
                 )}
 
                 {/* Toolbar */}
+                <h2 className="text-xl font-semibold text-gray-800 mb-6">Products</h2>
                 <div className="flex justify-between items-center mb-4">
                     <input
                         type="text"

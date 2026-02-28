@@ -8,7 +8,7 @@ import Modal from '@/components/ui/Modal';
 import LocationForm from '@/components/locations/LocationForm';
 
 export default function LocationsPage() {
-    const { user, logout, isLoading: authLoading } = useAuth();
+    const { user, isLoading: authLoading } = useAuth();
     const { canEdit, isAdmin } = useRole();
     const router = useRouter();
 
@@ -82,22 +82,6 @@ export default function LocationsPage() {
 
     return (
         <div className="min-h-screen bg-gray-50">
-            <header className="bg-white shadow">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-                    <h1 className="text-2xl font-bold text-gray-900">Locations</h1>
-                    <div className="flex items-center gap-4">
-                        <span className="text-sm text-gray-600">
-                            {user.firstName} {user.lastName} &mdash; <span className="font-medium">{user.role}</span>
-                        </span>
-                        <button
-                            onClick={logout}
-                            className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700"
-                        >
-                            Logout
-                        </button>
-                    </div>
-                </div>
-            </header>
 
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {error && (
@@ -106,6 +90,7 @@ export default function LocationsPage() {
                     </div>
                 )}
 
+                <h2 className="text-xl font-semibold text-gray-800 mb-6">Locations</h2>
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-sm text-gray-500">{locations.length} location{locations.length !== 1 ? 's' : ''}</h2>
                     {canEdit && (
