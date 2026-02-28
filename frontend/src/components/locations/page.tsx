@@ -2,88 +2,71 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/lib/context/AuthContext';
 import { useRouter } from 'next/navigation';
-import { productsApi, Product, ProductRequest } from '@/lib/api/products';
+import { locationsApi, Location, LocationRequest } from '@/lib/api/locations';
 import { useRole } from '@/lib/hooks/useRole';
 import Modal from '@/components/ui/Modal';
-import ProductForm from '@/components/products/ProductForm';
+import LocationForm from '@/components/locations/LocationForm';
 
-export default function ProductsPage() {
+export default function LocationsPage() {
     const { user, logout, isLoading: authLoading } = useAuth();
     const { canEdit, isAdmin } = useRole();
     const router = useRouter();
 
-    const [products, setProducts] = useState<Product[]>([]);
+    const [locations, setLocations] = useState<Location[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
-    const [searchQuery, setSearchQuery] = useState('');
 
-    // Modal state
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-
-    // Confirm deactivate state
+    const [editingLocation, setEditingLocation] = useState<Location | null>(null);
     const [confirmDeactivateId, setConfirmDeactivateId] = useState<number | null>(null);
 
     useEffect(() => {
         if (!authLoading && !user) router.push('/login');
     }, [user, authLoading, router]);
 
-    const fetchProducts = async (search?: string) => {
+    const fetchLocations = async () => {
         try {
             setIsLoading(true);
-            let data;
-            if (search && search.trim()) {
-                data = await productsApi.search(search.trim());
-            } else {
-                data = await productsApi.getAll();
-            }
-            setProducts(data.content);
+            const data = await locationsApi.getAll();
+            setLocations(data);
         } catch (err: any) {
-            setError('Failed to load products');
+            setError('Failed to load locations');
         } finally {
             setIsLoading(false);
         }
     };
 
     useEffect(() => {
-        if (user) fetchProducts();
+        if (user) fetchLocations();
     }, [user]);
 
-    // Debounced search
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-            if (user) fetchProducts(searchQuery);
-        }, 300);
-        return () => clearTimeout(timeout);
-    }, [searchQuery]);
-
-    const handleCreate = async (data: ProductRequest) => {
-        await productsApi.create(data);
+    const handleCreate = async (data: LocationRequest) => {
+        await locationsApi.create(data);
         setIsModalOpen(false);
-        fetchProducts(searchQuery);
+        fetchLocations();
     };
 
-    const handleUpdate = async (data: ProductRequest) => {
-        if (!editingProduct) return;
-        await productsApi.update(editingProduct.id, data);
+    const handleUpdate = async (data: LocationRequest) => {
+        if (!editingLocation) return;
+        await locationsApi.update(editingLocation.id, data);
         setIsModalOpen(false);
-        setEditingProduct(null);
-        fetchProducts(searchQuery);
+        setEditingLocation(null);
+        fetchLocations();
     };
 
     const handleDeactivate = async (id: number) => {
-        await productsApi.deactivate(id);
+        await locationsApi.deactivate(id);
         setConfirmDeactivateId(null);
-        fetchProducts(searchQuery);
+        fetchLocations();
     };
 
     const openCreateModal = () => {
-        setEditingProduct(null);
+        setEditingLocation(null);
         setIsModalOpen(true);
     };
 
-    const openEditModal = (product: Product) => {
-        setEditingProduct(product);
+    const openEditModal = (location: Location) => {
+        setEditingLocation(location);
         setIsModalOpen(true);
     };
 
@@ -99,10 +82,9 @@ export default function ProductsPage() {
 
     return (
         <div className="min-h-screen bg-gray-50">
-            {/* Header */}
             <header className="bg-white shadow">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-                    <h1 className="text-2xl font-bold text-gray-900">Products</h1>
+                    <h1 className="text-2xl font-bold text-gray-900">Locations</h1>
                     <div className="flex items-center gap-4">
                         <span className="text-sm text-gray-600">
                             {user.firstName} {user.lastName} &mdash; <span className="font-medium">{user.role}</span>
@@ -117,7 +99,6 @@ export default function ProductsPage() {
                 </div>
             </header>
 
-            {/* Main Content */}
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {error && (
                     <div className="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
@@ -125,37 +106,30 @@ export default function ProductsPage() {
                     </div>
                 )}
 
-                {/* Toolbar */}
                 <div className="flex justify-between items-center mb-4">
-                    <input
-                        type="text"
-                        placeholder="Search products..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-72 px-3 py-2 border border-gray-300 rounded-md text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                    />
+                    <h2 className="text-sm text-gray-500">{locations.length} location{locations.length !== 1 ? 's' : ''}</h2>
                     {canEdit && (
                         <button
                             onClick={openCreateModal}
                             className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
                         >
-                            + Add Product
+                            + Add Location
                         </button>
                     )}
                 </div>
 
-                {/* Table */}
                 <div className="bg-white shadow rounded-lg overflow-hidden">
                     {isLoading ? (
-                        <div className="p-8 text-center text-gray-500">Loading products...</div>
+                        <div className="p-8 text-center text-gray-500">Loading locations...</div>
                     ) : (
                         <table className="min-w-full divide-y divide-gray-200">
                             <thead className="bg-gray-50">
                                 <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">SKU</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Code</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">City</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">State</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                                     {canEdit && (
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
@@ -163,40 +137,41 @@ export default function ProductsPage() {
                                 </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
-                                {products.length === 0 ? (
+                                {locations.length === 0 ? (
                                     <tr>
-                                        <td colSpan={canEdit ? 6 : 5} className="px-6 py-8 text-center text-gray-500">
-                                            {searchQuery ? 'No products match your search' : 'No products yet'}
+                                        <td colSpan={canEdit ? 7 : 6} className="px-6 py-8 text-center text-gray-500">
+                                            No locations yet
                                         </td>
                                     </tr>
                                 ) : (
-                                    products.map((product) => (
-                                        <tr key={product.id} className="hover:bg-gray-50">
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-600">{product.sku}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{product.name}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{product.category}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${product.price.toFixed(2)}</td>
+                                    locations.map((location) => (
+                                        <tr key={location.id} className="hover:bg-gray-50">
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-600">{location.code}</td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{location.name}</td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{location.city || '—'}</td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{location.state || '—'}</td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{location.phone || '—'}</td>
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                                                    product.active
+                                                    location.active
                                                         ? 'bg-green-100 text-green-800'
                                                         : 'bg-red-100 text-red-800'
                                                 }`}>
-                                                    {product.active ? 'Active' : 'Inactive'}
+                                                    {location.active ? 'Active' : 'Inactive'}
                                                 </span>
                                             </td>
                                             {canEdit && (
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm">
                                                     <div className="flex gap-2">
                                                         <button
-                                                            onClick={() => openEditModal(product)}
+                                                            onClick={() => openEditModal(location)}
                                                             className="text-blue-600 hover:text-blue-800 font-medium"
                                                         >
                                                             Edit
                                                         </button>
-                                                        {product.active && (
+                                                        {location.active && (
                                                             <button
-                                                                onClick={() => setConfirmDeactivateId(product.id)}
+                                                                onClick={() => setConfirmDeactivateId(location.id)}
                                                                 className="text-red-600 hover:text-red-800 font-medium"
                                                             >
                                                                 Deactivate
@@ -214,26 +189,24 @@ export default function ProductsPage() {
                 </div>
             </main>
 
-            {/* Create/Edit Modal */}
             <Modal
                 isOpen={isModalOpen}
-                title={editingProduct ? 'Edit Product' : 'Add Product'}
-                onClose={() => { setIsModalOpen(false); setEditingProduct(null); }}
+                title={editingLocation ? 'Edit Location' : 'Add Location'}
+                onClose={() => { setIsModalOpen(false); setEditingLocation(null); }}
             >
-                <ProductForm
-                    product={editingProduct}
-                    onSubmit={editingProduct ? handleUpdate : handleCreate}
-                    onCancel={() => { setIsModalOpen(false); setEditingProduct(null); }}
+                <LocationForm
+                    location={editingLocation}
+                    onSubmit={editingLocation ? handleUpdate : handleCreate}
+                    onCancel={() => { setIsModalOpen(false); setEditingLocation(null); }}
                 />
             </Modal>
 
-            {/* Deactivate Confirmation Modal */}
             <Modal
                 isOpen={confirmDeactivateId !== null}
-                title="Deactivate Product"
+                title="Deactivate Location"
                 onClose={() => setConfirmDeactivateId(null)}
             >
-                <p className="text-gray-600 mb-6">Are you sure you want to deactivate this product? It will no longer appear in active product lists.</p>
+                <p className="text-gray-600 mb-6">Are you sure you want to deactivate this location?</p>
                 <div className="flex justify-end gap-3">
                     <button
                         onClick={() => setConfirmDeactivateId(null)}
